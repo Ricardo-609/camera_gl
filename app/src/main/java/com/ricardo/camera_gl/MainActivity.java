@@ -49,7 +49,8 @@ public class MainActivity extends AppCompatActivity {
             , "交叉线阴影"
 
     };
-    private Bitmap oldBitmap;
+    private Bitmap bitmap = null;
+
     private SeekBar seekBar;
     int filter = GPUFilter.FAST_GAUSSIAN_BLUR_FILTER;
 
@@ -63,7 +64,6 @@ public class MainActivity extends AppCompatActivity {
         //获得Assets资源文件
         AssetManager as = getAssets();
         InputStream is = null;
-        Bitmap bitmap = null;
         try {
             //注意名字要与图片名字一致
             is = as.open("link.jpg");
@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
 //        bitmap = gpuImage.getBitmapWithFilterApplied();
 
 //        //显示处理后的图片
-        resultIv.setImageBitmap(bitmap);
+//        resultIv.setImageBitmap(bitmap);
 
         seekBar = findViewById(R.id.seek_bar);
         seekBar.setMax(100);
@@ -138,7 +138,7 @@ public class MainActivity extends AppCompatActivity {
                     gpuImageHazeFilter.setDistance(progress/100f);
                 }
 
-                Bitmap gpuImage1 = GPUImageUtils.getFilterGPUImage(gpuImage, oldBitmap, gpuImageFilter);
+                Bitmap gpuImage1 = GPUImageUtils.getFilterGPUImage(gpuImage, bitmap, gpuImageFilter);
                 resultIv.setImageBitmap(gpuImage1);
             }
 
@@ -220,7 +220,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 try {
                     //注意名字要与图片名字一致
-                    Bitmap gpuImage1 = GPUImageUtils.getGPUImage(gpuImage, oldBitmap, filter);
+                    Bitmap gpuImage1 = GPUImageUtils.getGPUImage(gpuImage, bitmap, filter);
 //                    gpuImageView.setImage(gpuImage1);
                     resultIv.setImageBitmap(gpuImage1);
                 } catch (Exception ignored) {
@@ -234,8 +234,8 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-        oldBitmap = bitmap;
-        resultIv.setImageBitmap(oldBitmap);
+
+        resultIv.setImageBitmap(bitmap);
     }
 
 
