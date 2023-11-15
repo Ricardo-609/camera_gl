@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
 
         seekBar = findViewById(R.id.seek_bar);
         seekBar.setMax(100);
-//        gpuImageView = findViewById(R.id.gpu_image_later);
+
         Spinner spinner = findViewById(R.id.function_spinner);
         gpuImage = new GPUImage(this);
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -139,7 +139,6 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 Bitmap gpuImage1 = GPUImageUtils.getFilterGPUImage(gpuImage, oldBitmap, gpuImageFilter);
-//                gpuImageView.setImage(gpuImage1);
                 resultIv.setImageBitmap(gpuImage1);
             }
 
@@ -235,9 +234,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-//        oldBitmap = BitmapFactory.decodeResource(this.getResources(), R.mipmap.ic_launcher);
         oldBitmap = bitmap;
-//        gpuImageView.setImage(oldBitmap);
         resultIv.setImageBitmap(oldBitmap);
     }
 
