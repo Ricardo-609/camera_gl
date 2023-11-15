@@ -2,11 +2,9 @@ package com.ricardo.camera_gl;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -18,7 +16,6 @@ import android.widget.Spinner;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URI;
 
 import jp.co.cyberagent.android.gpuimage.GPUImage;
 import jp.co.cyberagent.android.gpuimage.GPUImageView;
@@ -75,12 +72,41 @@ public class MainActivity extends AppCompatActivity {
 
         // 使用GPUImage处理图像
         gpuImage = new GPUImage(this);
-//        gpuImage.setImage(bitmap);
+        gpuImage.setImage(bitmap);
 //        gpuImage.setFilter(new GPUImageGrayscaleFilter());      // 添加滤镜
 //        bitmap = gpuImage.getBitmapWithFilterApplied();
 
 //        //显示处理后的图片
 //        resultIv.setImageBitmap(bitmap);
+
+        GPUImageFilterGroup filterGroup = new GPUImageFilterGroup();
+
+        // 创建对比度滤镜
+        GPUImageContrastFilter contrastFilter = new GPUImageContrastFilter();
+        contrastFilter.setContrast(1.5f); // 设置对比度
+
+        // 创建亮度滤镜
+        GPUImageBrightnessFilter brightnessFilter = new GPUImageBrightnessFilter();
+        brightnessFilter.setBrightness(1.0f); // 设置亮度
+
+        // 创建饱和度滤镜
+        GPUImageSaturationFilter saturationFilter = new GPUImageSaturationFilter();
+        saturationFilter.setSaturation(1.0f); // 设置饱和度
+
+        // 创建白平衡滤镜
+        GPUImageWhiteBalanceFilter whiteBalanceFilter = new GPUImageWhiteBalanceFilter();
+        whiteBalanceFilter.setTemperature(5000); // 设置白平衡，温度值可以根据需要进行调整
+
+        // 将滤镜按顺序添加到GPUImage对象中
+        filterGroup.addFilter(contrastFilter);
+//        filterGroup.addFilter(brightnessFilter);
+        filterGroup.addFilter(saturationFilter);
+        filterGroup.addFilter(whiteBalanceFilter);
+
+        gpuImage.setFilter(filterGroup);
+        bitmap = gpuImage.getBitmapWithFilterApplied();
+
+
 
         seekBar = findViewById(R.id.seek_bar);
         seekBar.setMax(100);
@@ -221,11 +247,8 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     //注意名字要与图片名字一致
                     Bitmap gpuImage1 = GPUImageUtils.getGPUImage(gpuImage, bitmap, filter);
-//                    gpuImageView.setImage(gpuImage1);
                     resultIv.setImageBitmap(gpuImage1);
                 } catch (Exception ignored) {
-
-
                 }
             }
 
